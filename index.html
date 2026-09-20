@@ -826,11 +826,12 @@
   photos.forEach(name => {
     const fig = document.createElement('figure');
     const img = document.createElement('img');
-    img.src = encodeURI(name);
+    img.src = encodeURI('thumbs/' + name);
     img.loading = 'lazy';
+    img.decoding = 'async';
     img.alt = "S'Bonga and Lizanne";
     fig.appendChild(img);
-    fig.addEventListener('click', () => openLightbox(img.src));
+    fig.addEventListener('click', () => openLightbox(encodeURI(name)));
     gallery.appendChild(fig);
   });
 
