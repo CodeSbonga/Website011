@@ -374,8 +374,53 @@
   }
 
   @media (max-width: 640px){
-    .gallery{ columns: 2 160px; }
-    section{ padding: 60px 16px; }
+    body{ overflow-x:hidden; }
+    section{ padding: 50px 16px; }
+
+    #musicToggle{
+      top:12px; right:12px;
+      padding: 8px 12px;
+      font-size: 0.72rem;
+      gap:6px;
+    }
+
+    .hero{ min-height: 100vh; padding-top: 40px; }
+    .hero h1{ font-size: clamp(2.1rem, 9vw, 2.8rem); }
+    .hero .sub{ font-size: 0.95rem; padding: 0 6px; }
+    .hero-photo{ width: min(260px, 78vw); margin-bottom: 28px; }
+
+    #counter{ gap: 10px; }
+    .count-box{ min-width: 70px; padding: 12px 10px; }
+    .count-box .num{ font-size: 1.4rem; }
+    .count-box .label{ font-size: 0.6rem; }
+
+    h2.section-title{ font-size: clamp(1.7rem, 7vw, 2.2rem); }
+
+    .letter{ padding: 26px 18px; border-radius: 16px; }
+    .letter::before{ font-size: 4.2rem; left: 14px; top: -6px; }
+    .letter p{ font-size: 0.98rem; line-height: 1.75; margin-bottom: 18px; }
+    .letter .signoff{ font-size: 1.3rem; }
+
+    .quotes{ grid-template-columns: 1fr; gap: 14px; }
+    .quote-card{ padding: 22px 18px; }
+
+    .gallery{ columns: 2 140px; column-gap: 10px; }
+    .gallery figure{ margin-bottom: 10px; }
+
+    .video-wrap{ border-width: 4px; border-radius: 14px; }
+    #video-section > .video-wrap{ margin-top: 18px; }
+
+    .reasons li{ padding: 14px 16px; font-size: 0.95rem; }
+
+    #lightbox{ padding: 14px; }
+    #lightbox .close{ top: 12px; right: 16px; font-size: 2rem; }
+
+    footer{ font-size: 1.1rem; padding: 44px 16px 60px; }
+  }
+
+  @media (max-width: 380px){
+    .gallery{ columns: 2 120px; }
+    .count-box{ min-width: 62px; padding: 10px 8px; }
   }
 </style>
 </head>
@@ -404,7 +449,7 @@
   <div class="eyebrow">Happy 18 Month Anniversary</div>
   <h1>Us, Still Choosing<br>Each Other</h1>
   <div class="hero-photo">
-    <img src="WhatsApp%20Image%202026-09-20%20at%2023.43.55.jpeg" alt="Musa and Lizanne">
+    <img src="WhatsApp%20Image%202026-09-20%20at%2023.43.55.jpeg" alt="S'Bonga and Lizanne">
   </div>
   <p class="sub">Eighteen months ago, I found the person I didn't know I was looking for. Every month since has just been proof I was right to stay.</p>
 
@@ -427,7 +472,7 @@
     <p>Thank you for the ordinary Tuesdays that somehow feel like main character moments just because you're in them. For the mirror selfies and the errands turned into dates, for laughing at things only we find funny, for choosing me on the easy days and the hard ones too.</p>
     <p>You are my favorite person to tell good news to first, and my safest place to fall apart in front of. Eighteen months in, and I still get that little flutter when I see your name pop up on my phone. I don't think that's ever going away, and honestly, I hope it doesn't.</p>
     <p>Here's to eighteen months of us &mdash; and every month after this one, however many it takes to lose count.</p>
-    <div class="signoff">Always yours, Musa</div>
+    <div class="signoff">Always yours, S'Bonga</div>
   </div>
 </section>
 
@@ -447,7 +492,7 @@
 
 <!-- GALLERY -->
 <section id="gallery-section">
-  <h2 class="section-title">Us, In Pictures</h2>
+  <h2 class="section-title">Memory Lane</h2>
   <div class="divider"></div>
   <div class="gallery" id="gallery">
     <!-- filled by JS -->
@@ -587,7 +632,7 @@
     const img = document.createElement('img');
     img.src = encodeURI(name);
     img.loading = 'lazy';
-    img.alt = 'Musa and Lizanne';
+    img.alt = "S'Bonga and Lizanne";
     fig.appendChild(img);
     fig.addEventListener('click', () => openLightbox(img.src));
     gallery.appendChild(fig);
