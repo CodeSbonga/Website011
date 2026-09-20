@@ -1062,10 +1062,10 @@
     if(dim){ fig.style.aspectRatio = dim[0] + ' / ' + dim[1]; }
 
     const img = document.createElement('img');
-    const thumbWebp = encodeURI('thumbs/' + base + '.webp');
-    const thumbJpg = encodeURI('thumbs/' + name);
-    img.src = thumbWebp;
-    img.onerror = function(){ img.onerror = null; img.src = thumbJpg; };
+    const fullWebp = encodeURI(base + '.webp');
+    const fullJpg = encodeURI(name);
+    img.src = fullWebp;
+    img.onerror = function(){ img.onerror = null; img.src = fullJpg; };
     img.loading = 'lazy';
     img.decoding = 'async';
     img.alt = "S'Bonga and Lizanne";
