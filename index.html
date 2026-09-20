@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>18 Months With Lizanne</title>
+<style>
+  :root{
+    --blush:#f7e4e4;
+    --blush-deep:#e8b4bc;
+    --rose:#c96b7b;
+    --rose-deep:#a8455a;
+    --wine:#5c2a35;
+    --cream:#fff8f3;
+    --gold:#d8a657;
+    --ink:#3a2226;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family: 'Georgia', 'Iowan Old Style', serif;
+    background: linear-gradient(180deg, var(--cream), var(--blush) 15%, var(--cream) 40%, var(--blush) 70%, var(--cream));
+    color: var(--ink);
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  @font-face{
+    font-family:'ScriptFont';
+  }
+  .script{
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  }
+
+  /* ---------- gate ---------- */
+  #gate{
+    position:fixed; inset:0; z-index:999;
+    background: radial-gradient(ellipse at center, #fff0ef 0%, var(--blush-deep) 100%);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    transition: opacity 1.2s ease, visibility 1.2s ease;
+    padding: 24px;
+  }
+  #gate.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  #gate h1{
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: var(--rose-deep);
+    margin-bottom: 14px;
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  }
+  #gate p{
+    max-width: 420px;
+    color: var(--wine);
+    font-size: 1rem;
+    margin-bottom: 28px;
+    opacity:0.85;
+  }
+  #enterBtn{
+    background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+    color: #fff8f3;
+    border:none;
+    padding: 16px 38px;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    letter-spacing: 1px;
+    cursor:pointer;
+    box-shadow: 0 10px 30px rgba(168,69,90,0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    font-family: 'Georgia', serif;
+  }
+  #enterBtn:hover{ transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 34px rgba(168,69,90,0.45); }
+  .gate-heart{
+    font-size: 2.4rem;
+    margin-bottom: 18px;
+    animation: pulse 1.6s ease-in-out infinite;
+    color: var(--rose-deep);
+  }
+  @keyframes pulse{
+    0%,100%{ transform: scale(1); }
+    50%{ transform: scale(1.15); }
+  }
+
+  /* ---------- floating hearts background ---------- */
+  #hearts{
+    position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;
+  }
+  .heart{
+    position:absolute;
+    top:-40px;
+    color: var(--blush-deep);
+    opacity:0.6;
+    animation: fall linear infinite;
+    user-select:none;
+  }
+  @keyframes fall{
+    0%{ transform: translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:0.7; }
+    90%{ opacity:0.5; }
+    100%{ transform: translateY(110vh) rotate(360deg); opacity:0; }
+  }
+
+  /* ---------- music control ---------- */
+  #musicToggle{
+    position:fixed; top:18px; right:18px; z-index:500;
+    background: rgba(255,248,243,0.85);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--blush-deep);
+    border-radius: 50px;
+    padding: 10px 16px;
+    display:flex; align-items:center; gap:8px;
+    cursor:pointer;
+    box-shadow: 0 4px 18px rgba(168,69,90,0.18);
+    font-size:0.85rem;
+    color: var(--wine);
+    transition: transform 0.2s ease;
+  }
+  #musicToggle:hover{ transform: scale(1.05); }
+  #musicToggle .bar{
+    width:3px; height:10px; background: var(--rose-deep); border-radius:2px;
+    animation: eq 0.8s ease-in-out infinite;
+  }
+  #musicToggle .bar:nth-child(2){ animation-delay:0.2s; }
+  #musicToggle .bar:nth-child(3){ animation-delay:0.4s; }
+  #musicToggle.paused .bar{ animation-play-state: paused; height:4px; }
+  @keyframes eq{
+    0%,100%{ height:4px; }
+    50%{ height:14px; }
+  }
+
+  /* ---------- sections ---------- */
+  section{
+    position:relative; z-index:2;
+    padding: 90px 20px;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .hero{
+    min-height: 92vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding-top: 60px;
+  }
+  .hero .eyebrow{
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--rose-deep);
+    margin-bottom: 18px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .hero h1{
+    font-size: clamp(2.6rem, 8vw, 5rem);
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    color: var(--rose-deep);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 24px rgba(168,69,90,0.2);
+  }
+  .hero .sub{
+    font-size: clamp(1rem, 2.4vw, 1.3rem);
+    color: var(--wine);
+    max-width: 520px;
+    margin-bottom: 40px;
+    opacity:0.9;
+  }
+  .hero-photo{
+    width: min(320px, 70vw);
+    aspect-ratio: 4/5;
+    border-radius: 16px;
+    overflow:hidden;
+    box-shadow: 0 25px 60px rgba(92,42,53,0.35), 0 0 0 10px #fff8f3, 0 0 0 11px var(--blush-deep);
+    transform: rotate(-3deg);
+    margin-bottom: 40px;
+  }
+  .hero-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  #counter{
+    display:flex; flex-wrap:wrap; gap: 18px; justify-content:center; margin-top: 10px;
+  }
+  .count-box{
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--blush-deep);
+    border-radius: 14px;
+    padding: 16px 20px;
+    min-width: 88px;
+    text-align:center;
+    backdrop-filter: blur(4px);
+  }
+  .count-box .num{
+    font-size: 1.8rem;
+    font-weight:bold;
+    color: var(--rose-deep);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .count-box .label{
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--wine);
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+
+  .scroll-hint{
+    margin-top: 50px;
+    font-size: 1.6rem;
+    color: var(--rose-deep);
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(10px); }
+  }
+
+  h2.section-title{
+    text-align:center;
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    color: var(--rose-deep);
+    margin-bottom: 14px;
+  }
+  .divider{
+    width: 70px; height: 3px;
+    background: var(--gold);
+    margin: 0 auto 50px;
+    border-radius: 2px;
+  }
+
+  /* letter */
+  .letter{
+    background: #fffdfa;
+    border-radius: 20px;
+    padding: clamp(28px, 6vw, 56px);
+    box-shadow: 0 20px 50px rgba(92,42,53,0.12);
+    border: 1px solid var(--blush-deep);
+    position:relative;
+  }
+  .letter::before{
+    content:"“";
+    position:absolute; top:-10px; left:24px;
+    font-size: 6rem;
+    color: var(--blush-deep);
+    font-family: Georgia, serif;
+    line-height:1;
+  }
+  .letter p{
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    line-height: 1.9;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  .letter p:last-child{ margin-bottom:0; }
+  .letter .signoff{
+    text-align:right;
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: 1.6rem;
+    color: var(--rose-deep);
+    margin-top: 30px;
+  }
+
+  /* quotes marquee-ish grid */
+  .quotes{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+  }
+  .quote-card{
+    background: linear-gradient(160deg, #fffdfa, var(--blush));
+    border-radius: 16px;
+    padding: 28px 24px;
+    border: 1px solid var(--blush-deep);
+    text-align:center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .quote-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(168,69,90,0.2);
+  }
+  .quote-card p{
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--wine);
+  }
+  .quote-card .mark{
+    color: var(--gold);
+    font-size: 1.6rem;
+    display:block;
+    margin-bottom: 8px;
+  }
+
+  /* gallery */
+  .gallery{
+    columns: 3 220px;
+    column-gap: 14px;
+  }
+  .gallery figure{
+    break-inside: avoid;
+    margin: 0 0 14px;
+    border-radius: 14px;
+    overflow:hidden;
+    box-shadow: 0 10px 26px rgba(92,42,53,0.18);
+    cursor: zoom-in;
+    position:relative;
+  }
+  .gallery img{
+    width:100%; display:block;
+    transition: transform 0.5s ease;
+  }
+  .gallery figure:hover img{ transform: scale(1.06); }
+
+  /* video */
+  .video-wrap{
+    border-radius: 20px;
+    overflow:hidden;
+    box-shadow: 0 25px 55px rgba(92,42,53,0.25);
+    border: 6px solid #fffdfa;
+    outline: 2px solid var(--blush-deep);
+  }
+  video{ width:100%; display:block; background:#000; }
+
+  /* timeline / reasons */
+  .reasons{
+    list-style:none;
+    display:grid;
+    gap: 16px;
+  }
+  .reasons li{
+    background: #fffdfa;
+    border-left: 4px solid var(--rose-deep);
+    padding: 16px 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(92,42,53,0.08);
+    font-size: 1.02rem;
+    line-height: 1.6;
+  }
+  .reasons li b{ color: var(--rose-deep); }
+
+  /* lightbox */
+  #lightbox{
+    position:fixed; inset:0; background: rgba(58,34,38,0.92);
+    display:none; align-items:center; justify-content:center;
+    z-index: 800; padding: 30px;
+  }
+  #lightbox.open{ display:flex; }
+  #lightbox img{
+    max-width: 92vw; max-height: 86vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  #lightbox .close{
+    position:absolute; top:22px; right:30px;
+    color:#fff8f3; font-size:2.2rem; cursor:pointer;
+    line-height:1;
+  }
+
+  footer{
+    text-align:center;
+    padding: 60px 20px 80px;
+    color: var(--wine);
+    font-family: 'Brush Script MT', 'Segoe Script', cursive;
+    font-size: 1.4rem;
+    position:relative; z-index:2;
+  }
+  footer .small{
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--rose-deep);
+    opacity:0.7;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 640px){
+    .gallery{ columns: 2 160px; }
+    section{ padding: 60px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-heart">&#10084;</div>
+  <h1>For Lizanne</h1>
+  <p>Eighteen months of us, wrapped up in one little page. Put your volume on &mdash; there's a song waiting for you.</p>
+  <button id="enterBtn">Open Our Story &#8594;</button>
+</div>
+
+<div id="hearts"></div>
+
+<div id="musicToggle" class="paused">
+  <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+  <span id="musicLabel">Play music</span>
+</div>
+
+<audio id="bgm" loop preload="auto">
+  <source src="ANNIVERSARY_TONY_TONI_TONE_Naijapals.mp3" type="audio/mpeg">
+</audio>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Happy 18 Month Anniversary</div>
+  <h1>Us, Still Choosing<br>Each Other</h1>
+  <div class="hero-photo">
+    <img src="WhatsApp%20Image%202026-09-20%20at%2023.43.55.jpeg" alt="Musa and Lizanne">
+  </div>
+  <p class="sub">Eighteen months ago, I found the person I didn't know I was looking for. Every month since has just been proof I was right to stay.</p>
+
+  <div id="counter">
+    <div class="count-box"><div class="num" id="c-months">18</div><div class="label">Months</div></div>
+    <div class="count-box"><div class="num" id="c-days">0</div><div class="label">Days</div></div>
+    <div class="count-box"><div class="num" id="c-hours">0</div><div class="label">Hours</div></div>
+    <div class="count-box"><div class="num" id="c-mins">0</div><div class="label">Minutes</div></div>
+  </div>
+
+  <div class="scroll-hint">&#8595;</div>
+</section>
+
+<!-- LETTER -->
+<section id="letter">
+  <h2 class="section-title">A Little Letter</h2>
+  <div class="divider"></div>
+  <div class="letter">
+    <p>Lizanne, eighteen months feels like both a heartbeat and a lifetime. I still remember the version of me before you &mdash; a little more guarded, a little less soft. You didn't ask me to change; you just made it feel safe to.</p>
+    <p>Thank you for the ordinary Tuesdays that somehow feel like main character moments just because you're in them. For the mirror selfies and the errands turned into dates, for laughing at things only we find funny, for choosing me on the easy days and the hard ones too.</p>
+    <p>You are my favorite person to tell good news to first, and my safest place to fall apart in front of. Eighteen months in, and I still get that little flutter when I see your name pop up on my phone. I don't think that's ever going away, and honestly, I hope it doesn't.</p>
+    <p>Here's to eighteen months of us &mdash; and every month after this one, however many it takes to lose count.</p>
+    <div class="signoff">Always yours, Musa</div>
+  </div>
+</section>
+
+<!-- QUOTES -->
+<section id="quotes">
+  <h2 class="section-title">Some Truths About Us</h2>
+  <div class="divider"></div>
+  <div class="quotes">
+    <div class="quote-card"><span class="mark">&#10084;</span><p>"Home isn't a place. It's the sound of your voice on the other end of the phone."</p></div>
+    <div class="quote-card"><span class="mark">&#10084;</span><p>"Eighteen months in, and you're still my favorite notification."</p></div>
+    <div class="quote-card"><span class="mark">&#10084;</span><p>"They say time flies when you're having fun. With you, it flew and I didn't even notice the wind."</p></div>
+    <div class="quote-card"><span class="mark">&#10084;</span><p>"I fall for you a little more every ordinary day we survive together."</p></div>
+    <div class="quote-card"><span class="mark">&#10084;</span><p>"You are my favorite hello and my hardest goodbye."</p></div>
+    <div class="quote-card"><span class="mark">&#10084;</span><p>"Some people search a lifetime for what I found in you."</p></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery-section">
+  <h2 class="section-title">Us, In Pictures</h2>
+  <div class="divider"></div>
+  <div class="gallery" id="gallery">
+    <!-- filled by JS -->
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video-section">
+  <h2 class="section-title">A Moment Worth Replaying</h2>
+  <div class="divider"></div>
+  <div class="video-wrap">
+    <video controls playsinline poster="">
+      <source src="WhatsApp%20Video%202026-09-20%20at%2023.44.01.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="video-wrap" style="margin-top:24px;">
+    <video controls playsinline poster="">
+      <source src="WhatsApp%20Video%202026-09-20%20at%2023.44.03.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<!-- REASONS -->
+<section id="reasons-section">
+  <h2 class="section-title">18 Reasons, For 18 Months</h2>
+  <div class="divider"></div>
+  <ul class="reasons" id="reasons"></ul>
+</section>
+
+<div id="lightbox">
+  <span class="close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<footer>
+  Here's to us &mdash; month after month, year after year.
+  <div class="small">Made with love for Lizanne &bull; 18 months &amp; counting</div>
+</footer>
+
+<script>
+  // ---------- gate / music autoplay-on-interaction ----------
+  const gate = document.getElementById('gate');
+  const enterBtn = document.getElementById('enterBtn');
+  const bgm = document.getElementById('bgm');
+  const musicToggle = document.getElementById('musicToggle');
+  const musicLabel = document.getElementById('musicLabel');
+
+  function playMusic(){
+    bgm.volume = 0.7;
+    bgm.play().then(()=>{
+      musicToggle.classList.remove('paused');
+      musicLabel.textContent = 'Pause music';
+    }).catch(()=>{
+      musicToggle.classList.add('paused');
+      musicLabel.textContent = 'Play music';
+    });
+  }
+
+  enterBtn.addEventListener('click', () => {
+    gate.classList.add('hidden');
+    playMusic();
+  });
+
+  musicToggle.addEventListener('click', () => {
+    if(bgm.paused){
+      playMusic();
+    } else {
+      bgm.pause();
+      musicToggle.classList.add('paused');
+      musicLabel.textContent = 'Play music';
+    }
+  });
+
+  // ---------- floating hearts ----------
+  const heartsContainer = document.getElementById('hearts');
+  const heartSymbols = ['&#10084;','&#10084;','&#10083;'];
+  for(let i=0;i<22;i++){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    h.innerHTML = heartSymbols[Math.floor(Math.random()*heartSymbols.length)];
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.fontSize = (12 + Math.random()*22) + 'px';
+    h.style.animationDuration = (8 + Math.random()*10) + 's';
+    h.style.animationDelay = (Math.random()*10) + 's';
+    heartsContainer.appendChild(h);
+  }
+
+  // ---------- live counter since anniversary start ----------
+  // 18 months before the page's reference "today" (2026-09-20)
+  const startDate = new Date('2025-03-20T00:00:00');
+  function updateCounter(){
+    const now = new Date();
+    let diffMs = now - startDate;
+    if(diffMs < 0) diffMs = 0;
+    const totalMinutes = Math.floor(diffMs/60000);
+    const totalHoursFull = Math.floor(diffMs/3600000);
+    const totalDaysFull = Math.floor(diffMs/86400000);
+
+    // months approx (30.44 days/month)
+    const months = Math.floor(totalDaysFull / 30.44);
+    const days = totalDaysFull - Math.floor(months*30.44);
+    const hours = totalHoursFull % 24;
+    const mins = totalMinutes % 60;
+
+    document.getElementById('c-months').textContent = months;
+    document.getElementById('c-days').textContent = days;
+    document.getElementById('c-hours').textContent = hours;
+    document.getElementById('c-mins').textContent = mins;
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000*30);
+
+  // ---------- gallery ----------
+  const photos = [
+    "WhatsApp Image 2026-09-20 at 23.43.55 (1).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.55.jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.56 (1).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.56 (2).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.56 (3).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.56.jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.57 (1).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.57 (2).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.57 (3).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.57.jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.58.jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.59 (1).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.59 (2).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.43.59.jpeg",
+    "WhatsApp Image 2026-09-20 at 23.44.00 (1).jpeg",
+    "WhatsApp Image 2026-09-20 at 23.44.00.jpeg",
+    "WhatsApp Image 2026-09-20 at 23.44.01.jpeg"
+  ];
+
+  const gallery = document.getElementById('gallery');
+  photos.forEach(name => {
+    const fig = document.createElement('figure');
+    const img = document.createElement('img');
+    img.src = encodeURI(name);
+    img.loading = 'lazy';
+    img.alt = 'Musa and Lizanne';
+    fig.appendChild(img);
+    fig.addEventListener('click', () => openLightbox(img.src));
+    gallery.appendChild(fig);
+  });
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  function openLightbox(src){
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+  }
+  lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
+
+  // ---------- reasons ----------
+  const reasonsData = [
+    "You remember the small things I mention once, in passing, weeks later.",
+    "The way you laugh at my jokes even when they're not that funny.",
+    "You make ordinary errands feel like little adventures.",
+    "You check on me without me having to ask.",
+    "Your hugs feel like the safest place on earth.",
+    "You're honest with me, even when it's uncomfortable.",
+    "You celebrate my wins like they're your own.",
+    "You've never made me feel too much or not enough.",
+    "The playlists, the memes, the random 'thinking of you' texts.",
+    "You show up, consistently, even on the hard days.",
+    "You make me want to be a better version of myself.",
+    "Your patience with me knows no limits.",
+    "You've turned into my favorite person to do absolutely nothing with.",
+    "You never let an argument turn into distance.",
+    "You believe in my dreams as much as I do.",
+    "The way your face lights up when you see me.",
+    "You've made 'us' feel like home.",
+    "18 months later, and I'd still pick you, every single time."
+  ];
+  const reasonsEl = document.getElementById('reasons');
+  reasonsData.forEach((r, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = '<b>' + (i+1) + '.</b> ' + r;
+    reasonsEl.appendChild(li);
+  });
+</script>
+
+</body>
+</html>
